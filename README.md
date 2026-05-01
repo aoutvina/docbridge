@@ -56,34 +56,10 @@ Patients book the wrong doctor every day. Elderly users struggle with complex ap
 
 ---
 
-## Quick Start
-
-```bash
-git clone https://github.com/aoutvina/docbridge.git
-cd docbridge
-pip install -r requirements.txt
-python app.py
-Open http://127.0.0.1:5050
-
-Try These Symptoms
-You say...	System recommends...
-"болит горло, температура"	ENT + Therapist
-"сыпь и чешется"	Dermatologist
-"болит сердце и давит"	Cardiologist (URGENT)
-"плохо вижу"	Ophthalmologist
-"болит зуб"	Dentist
-Built With
-Python • Flask • SQLite • Web Speech API • Telegram Bot API • Gunicorn • Render
-
-Team
-Name	Role
-Khudaiberganova Elvina	Lead & Backend
-Aidarbekkyzy Aigerim	Frontend & Design
-Kemalova Ayaulym	Database & QA
-Akylbekkyzy Nazerke	Documentation
-SDU University • INF395 • 2026
+---
 
 <div align="center">
-Open Live Demo • Full Report
 
-</div> ```
+**[Open Live Demo](https://docbridge-770d.onrender.com)** • **[Full Report](REPORT.md)** • **SDU University • INF395 • 2026**
+
+</div>
