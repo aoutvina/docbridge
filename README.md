@@ -1,257 +1,93 @@
-# DocBridge — Smart Doctor Appointment System
-
-> Symptom-based doctor appointment system with voice input and Telegram notifications.
-
-**Deployed:** https://docbridge-770d.onrender.com
-
----
-
-## About
-
-DocBridge helps patients find the right doctor by analyzing symptoms. Describe your symptom via **text or voice**, get a specialist recommendation, and book an appointment instantly.
-
-## Features
-
-- 🎤 Voice input (Web Speech API, Russian)
-- 🧠 Symptom analysis (82 keywords, 8 specializations)
-- ⚠️ Emergency detection (heart attack, stroke, fever)
-- 👨‍⚕️ Doctor matching with profiles
-- 📅 Slot booking (7-day availability)
-- 📱 Telegram notifications
-- 🔍 Appointment lookup by ID
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Backend | Python + Flask |
-| Database | SQLite |
-| Frontend | HTML + CSS + JavaScript |
-| Voice | Web Speech API |
-| Alerts | python-telegram-bot |
-| Deployment | Render |
-
-## Run Locally
-
-```bash
-git clone https://github.com/aoutvina/docbridge.git
-cd docbridge
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
-Open http://127.0.0.1:5050
-
-Project Structure
-text
-docbridge/
-├── app.py
-├── models.py
-├── symptom_analyzer.py
-├── telegram_bot.py
-├── static/css/style.css
-├── templates/
-│   ├── base.html
-│   ├── index.html
-│   ├── doctors.html
-│   ├── doctor.html
-│   └── check.html
-└── screenshots/
-Team
-Name	Student ID	Role
-Khudaiberganova Elvina	240103122	Project Lead & Backend
-Aidarbekkyzy Aigerim	240103117	Frontend & UI/UX
-Kemalova Ayaulym	240103119	Database & Testing
-Akylbekkyzy Nazerke	240103204	Documentation
-SDU University | INF395 | Spring 2026
-
-text
-
----
-
-## Шаг 2: Запушь
-
-```bash
-git add README.md
-git commit -m "Add README"
-git push
-Напиши "README готов".
-
-вообще read me должен быть идеальным не так? не просто тексты а реально репрезент твоего продукта с фотками итд
-Ты права. README — это лицо проекта. Сделаем красивый, с эмодзи, бейджами, скриншотами — как у настоящих стартапов на GitHub.
-
-Замени README.md полностью:
-markdown
 <div align="center">
-
-<img src="screenshots/image-2.png" alt="DocBridge" width="600"/>
 
 # 🏥 DocBridge
 
-### Intelligent Symptom-Based Doctor Appointment System
+### Speak your symptom. Find your doctor. Book instantly.
 
-[![Deployed](https://img.shields.io/badge/Live-Render-2563eb?style=for-the-badge)](https://docbridge-770d.onrender.com)
-[![GitHub](https://img.shields.io/badge/Repo-GitHub-black?style=for-the-badge)](https://github.com/aoutvina/docbridge)
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python)](https://python.org)
-[![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=flat-square&logo=flask)](https://flask.palletsprojects.com/)
-[![License](https://img.shields.io/badge/License-Academic-blue?style=flat-square)]()
+[![Live Demo](https://img.shields.io/badge/🔗_Live_Demo-docbridge.onrender.com-2563eb?style=for-the-badge)](https://docbridge-770d.onrender.com)
+[![GitHub](https://img.shields.io/badge/GitHub-aoutvina/docbridge-black?style=for-the-badge&logo=github)](https://github.com/aoutvina/docbridge)
 
 </div>
 
 ---
 
-## 📖 Overview
+## 🤔 The Problem
 
-DocBridge bridges the gap between **patients and the right doctors**. Instead of guessing which specialist to visit, users describe their symptoms via **text or voice**, and the system instantly recommends the appropriate medical specialist — then books the appointment.
+> *"My throat hurts. Do I need a therapist? An ENT? I don't know. I'll just call and hope for the best."*
 
-> 🔗 **Try it now:** [docbridge-770d.onrender.com](https://docbridge-770d.onrender.com)
+Millions of patients book the **wrong doctor** every day. Elderly people struggle with complex apps. Clinics lose time on misdirected appointments.
 
 ---
 
-## ✨ Features
+## 💡 Our Solution
 
-| Feature | Description |
+**DocBridge** is an intelligent symptom-to-appointment pipeline.
+
+| Instead of... | You just... |
 |---|---|
-| 🎤 **Voice Input** | Speak your symptoms in Russian — Web Speech API handles the rest |
-| 🧠 **Smart Analysis** | Rule-based expert system with **82 keywords** across **8 specializations** |
-| ⚠️ **Emergency Detection** | Identifies heart attack, stroke, and critical fever symptoms |
-| 👨‍⚕️ **Doctor Matching** | Finds available doctors matching the recommended specialization |
-| 📅 **Slot Booking** | 7-day availability with real-time double-booking prevention |
-| 📱 **Telegram Alerts** | Instant booking confirmation via Telegram Bot |
-| 🔍 **Appointment Lookup** | Check your booking by ID number |
-| 📱 **Responsive** | Works on desktop and mobile (375px+) |
+| ❌ Guessing which doctor to pick | ✅ Describe your symptom |
+| ❌ Calling the clinic | ✅ Speak or type naturally |
+| ❌ Waiting on hold | ✅ Get instant recommendation |
+| ❌ Hoping it's the right specialist | ✅ Book the right doctor in 30 seconds |
 
 ---
 
-## 🖼️ Screenshots
+## 🎥 How It Works
 
 <div align="center">
 
-| | | |
+| 1. Describe Symptom | 2. Get Recommendation | 3. Choose Slot |
 |---|---|---|
-| **Homepage** | **Analysis Results** | **Doctor Slots** |
-| ![Home](screenshots/image-2.png) | ![Analysis](screenshots/image-3.png) | ![Slots](screenshots/image-4.png) |
-| **Booking Confirmation** | **Telegram Notification** | |
-| ![Confirmation](screenshots/image-5.png) | ![Telegram](screenshots/image-6.png) | |
+| ![Step 1](screenshots/image-2.png) | ![Step 2](screenshots/image-3.png) | ![Step 3](screenshots/image-4.png) |
+
+| 4. Confirm Booking | 5. Get Telegram Alert |
+|---|---|
+| ![Step 4](screenshots/image-5.png) | ![Step 5](screenshots/image-6.png) |
 
 </div>
 
 ---
 
-## 🛠 Tech Stack
+## ⚡ What Makes It Different
 
-| Layer | Technology | Version |
-|---|---|---|
-| Backend | Python + Flask | 3.11 / 3.1 |
-| Database | SQLite | 3 |
-| Frontend | HTML5 + CSS3 + Vanilla JS | — |
-| Voice | Web Speech API (Chrome) | W3C |
-| Alerts | python-telegram-bot | 22.7 |
-| Server | Gunicorn | 25.3 |
-| Hosting | Render | Free Tier |
-
----
-
-## 📁 Project Structure
-docbridge/
-├── app.py # Flask routes & logic
-├── models.py # Database schema & seed data
-├── symptom_analyzer.py # 82-keyword expert system
-├── telegram_bot.py # Telegram notification module
-├── requirements.txt # Python dependencies
-├── static/
-│ └── css/
-│ └── style.css # Custom design system
-├── templates/
-│ ├── base.html # Layout shell
-│ ├── index.html # Homepage (symptom input)
-│ ├── doctors.html # Doctor gallery
-│ ├── doctor.html # Doctor profile + booking
-│ └── check.html # Appointment lookup
-└── screenshots/ # Project screenshots
-
-text
+| Feature | Why It's Cool |
+|---|---|
+| 🎤 **Voice-first** | Speak your symptom. No typing needed. Perfect for elderly users. |
+| 🧠 **Smart, not AI-hype** | 82-rule expert system. Instant. Free. 100% explainable. No ChatGPT bills. |
+| ⚠️ **Emergency detection** | Says "heart + pain + pressure" → warns about possible heart attack. |
+| 📱 **Telegram, not email** | Kazakhstan's #1 messenger. Instant booking confirmation. |
+| 🌐 **Live & free** | Deployed on Render. Zero hosting cost. |
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.8+
-- Chrome browser (for voice input)
-
-### Local Setup
-
 ```bash
-# Clone the repo
 git clone https://github.com/aoutvina/docbridge.git
 cd docbridge
-
-# Create virtual environment
-python -m venv venv
-
-# Activate (Windows)
-venv\Scripts\activate
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Run
 python app.py
-Open http://127.0.0.1:5050
+Open http://127.0.0.1:5050 — that's it.
 
-Telegram Bot Setup (Optional)
-Create a bot via @BotFather
+🧪 Try These Symptoms
+Say or type...	System recommends...
+"болит горло, температура"	ENT + Therapist
+"сыпь на руках и чешется"	Dermatologist
+"болит сердце и давит"	⚠️ Cardiologist (URGENT)
+"плохо вижу, глаза устают"	Ophthalmologist
+"болит зуб, опухла десна"	Dentist
+🛠 Built With
+Python • Flask • SQLite • Web Speech API • Telegram Bot API • Gunicorn • Render
 
-Get your token
-
-Add token to telegram_bot.py or set BOT_TOKEN environment variable
-
-🧪 Usage Flow
-text
-1. Open homepage
-2. Describe symptom: "болит горло, температура 38"
-      ↓
-3. System analyzes → recommends ENT + Therapist
-      ↓
-4. Select doctor → choose time slot
-      ↓
-5. Fill name & phone → confirm booking
-      ↓
-6. Receive Telegram notification ✅
-📊 Testing
-23 test cases — 100% pass rate.
-
-Category	Tests	Passed
-Symptom Analysis	10	✅ 10
-Booking System	6	✅ 6
-UI/UX	6	✅ 6
-Integration	4	✅ 4
 👥 Team
-Name	ID	Role
-Khudaiberganova Elvina	240103122	Project Lead & Backend Developer
-Aidarbekkyzy Aigerim	240103117	Frontend Developer & UI/UX Designer
-Kemalova Ayaulym	240103119	Database Engineer & Tester
-Akylbekkyzy Nazerke	240103204	Technical Writer & QA
-📄 Documentation
-Full report: REPORT.md
-
-Deployed URL: docbridge-770d.onrender.com
-
-🔮 Future Roadmap
-User authentication (login/register)
-
-PostgreSQL migration
-
-Admin dashboard for clinics
-
-Cancel & reschedule appointments
-
-SMS notifications (Twilio)
-
-Kazakh language voice support
+Name	Role
+Khudaiberganova Elvina	Lead & Backend
+Aidarbekkyzy Aigerim	Frontend & Design
+Kemalova Ayaulym	Database & QA
+Akylbekkyzy Nazerke	Documentation
+SDU University • INF395 • 2026
 
 <div align="center">
-SDU University • INF395 • Spring 2026
+🔗 Open Live Demo • 📄 Full Report
 
 </div> ```
