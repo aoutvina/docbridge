@@ -69,25 +69,39 @@ pip install -r requirements.txt
 python app.py
 Open http://127.0.0.1:5050 — that's it.
 
-🧪 Try These Symptoms
-Say or type...	System recommends...
-"болит горло, температура"	ENT + Therapist
-"сыпь на руках и чешется"	Dermatologist
-"болит сердце и давит"	⚠️ Cardiologist (URGENT)
-"плохо вижу, глаза устают"	Ophthalmologist
-"болит зуб, опухла десна"	Dentist
-🛠 Built With
+## 🧪 Try These Symptoms
+
+| Say or type... | System recommends... |
+|---|---|
+| "болит горло, температура" | ENT + Therapist |
+| "сыпь на руках и чешется" | Dermatologist |
+| "болит сердце и давит" | ⚠️ Cardiologist (URGENT) |
+| "плохо вижу, глаза устают" | Ophthalmologist |
+| "болит зуб, опухла десна" | Dentist |
+
+---
+
+## 🛠 Built With
+
 Python • Flask • SQLite • Web Speech API • Telegram Bot API • Gunicorn • Render
 
-👥 Team
-Name	Role
-Khudaiberganova Elvina	Lead & Backend
-Aidarbekkyzy Aigerim	Frontend & Design
-Kemalova Ayaulym	Database & QA
-Akylbekkyzy Nazerke	Documentation
-SDU University • INF395 • 2026
+---
+
+## 👥 Team
+
+| Name | Role |
+|---|---|
+| Khudaiberganova Elvina | Lead & Backend |
+| Aidarbekkyzy Aigerim | Frontend & Design |
+| Kemalova Ayaulym | Database & QA |
+| Akylbekkyzy Nazerke | Documentation |
+
+**SDU University • INF395 • 2026**
+
+---
 
 <div align="center">
-🔗 Open Live Demo • 📄 Full Report
 
-</div> ```
+**[🔗 Open Live Demo](https://docbridge-770d.onrender.com)** • **[📄 Full Report](REPORT.md)**
+
+</div>
