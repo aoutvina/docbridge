@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}DocBridge — Умная запись к врачу{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-icon">🏥</div>
+    <h1>DocBridge</h1>
+    <p>Опишите симптом голосом или текстом — мы подберём нужного врача</p>
+</div>
+
+<div class="symptom-card">
+    <label>🩺 Опишите ваш симптом</label>
+    <textarea id="symptomInput" placeholder="Например: болит горло, температура 38, слабость..."></textarea>
+    
+    <div class="button-group">
+        <button class="btn btn-primary" onclick="analyzeSymptom()">🔍 Найти врача</button>
+        <button class="btn btn-mic" id="micBtn" onclick="toggleVoice()" title="Голосовой ввод">🎤</button>
+    </div>
+</div>
+
+<div id="resultContainer"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const micBtn = document.getElementById('micBtn');
+    const symptomInput = document.getElementById('symptomInput');
+    const resultContainer = document.getElementById('resultContainer');
+    let isListening = false;
+    let recognition = null;
+
+    function analyzeSymptom() {
+        const text = symptomInput.value.trim();
+        if (!text) {
+            alert('Пожалуйста, опишите симптом');
+            return;
+        }
+        
+        resultContainer.innerHTML = '<div class="result-box" style="text-align:center;"><p style="color:#64748b;">Анализируем симптомы...</p></div>';
+        
+        fetch('/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) {
+                resultContainer.innerHTML = '<div class="result-box"><p style="color:#dc2626;">Ошибка анализа</p></div>';
+                return;
+            }
+            
+            let html = '<div class="result-box">';
+            
+            if (data.analysis.warning) {
+                html += `<div class="alert-warning">⚠️ ${data.analysis.warning}</div>`;
+            }
+            
+            if (data.analysis.message) {
+                html += `<p style="color:#64748b;margin-bottom:16px;">${data.analysis.message}</p>`;
+            }
+            
+            html += '<h3>Рекомендованные специалисты</h3>';
+            data.analysis.specialists.forEach(spec => {
+                html += `<span class="specialist-tag">${spec}</span>`;
+            });
+            
+            if (data.analysis.matched_keywords.length > 0) {
+                html += `<p style="margin-top:12px;color:#94a3b8;font-size:13px;">Найдены симптомы: ${data.analysis.matched_keywords.join(', ')}</p>`;
+            }
+            
+            if (data.doctors.length > 0) {
+                html += '<h3 style="margin-top:24px;">Доступные врачи</h3>';
+                data.doctors.forEach(doc => {
+                    html += `
+                        <a href="/doctor/${doc.id}" class="doctor-card">
+                            <div class="doctor-avatar">${doc.photo_url || '👨‍⚕️'}</div>
+                            <div class="doctor-info">
+                                <h4>${doc.name}</h4>
+                                <p class="spec">${doc.specialization}</p>
+                                <p class="exp">Стаж: ${doc.experience_years} лет</p>
+                                <p class="desc">${doc.description || ''}</p>
+                            </div>
+                        </a>
+                    `;
+                });
+            }
+            
+            html += '</div>';
+            resultContainer.innerHTML = html;
+        })
+        .catch(() => {
+            resultContainer.innerHTML = '<div class="result-box"><p style="color:#dc2626;">Ошибка соединения с сервером</p></div>';
+        });
+    }
+
+    function toggleVoice() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            alert('Голосовой ввод работает только в Chrome.');
+            return;
+        }
+        
+        if (isListening) {
+            recognition.stop();
+            return;
+        }
+        
+        recognition = new SpeechRecognition();
+        recognition.lang = 'ru-RU';
+        
+        recognition.onstart = () => {
+            isListening = true;
+            micBtn.classList.add('listening');
+            micBtn.textContent = '🔴';
+        };
+        
+        recognition.onresult = (event) => {
+            symptomInput.value = event.results[0][0].transcript;
+            stopListening();
+            setTimeout(() => analyzeSymptom(), 300);
+        };
+        
+        recognition.onerror = () => stopListening();
+        recognition.onend = () => stopListening();
+        recognition.start();
+    }
+    
+    function stopListening() {
+        isListening = false;
+        micBtn.classList.remove('listening');
+        micBtn.textContent = '🎤';
+    }
+
+    symptomInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            analyzeSymptom();
+        }
+    });
+</script>
+{% endblock %}

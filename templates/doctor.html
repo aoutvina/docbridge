@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}DocBridge — {{ doctor.name }}{% endblock %}
+
+{% block content %}
+<a href="/doctors" class="back-link">← Назад к списку врачей</a>
+
+<div class="doctor-profile">
+    <div class="doctor-profile-header">
+        <div class="doctor-profile-avatar">{{ doctor.photo_url or '👨‍⚕️' }}</div>
+        <div class="doctor-profile-info">
+            <h2>{{ doctor.name }}</h2>
+            <p class="spec">{{ doctor.specialization }}</p>
+            <span class="exp-badge">Стаж: {{ doctor.experience_years }} лет</span>
+            {% if doctor.description %}
+            <p style="margin-top:12px;color:#64748b;">{{ doctor.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="slots-section">
+        <h3>Доступное время для записи</h3>
+        
+        {% if slots %}
+            {% set dates = [] %}
+            {% for slot in slots %}
+                {% if slot.date not in dates %}
+                    {% set _ = dates.append(slot.date) %}
+                {% endif %}
+            {% endfor %}
+            
+            {% for date in dates %}
+                <div class="slot-date-group">
+                    <p class="slot-date">
+                        {% if date == today %}
+                            Сегодня
+                        {% elif date == tomorrow %}
+                            Завтра
+                        {% else %}
+                            {{ date }}
+                        {% endif %}
+                    </p>
+                    <div class="slots-row">
+                        {% for slot in slots %}
+                            {% if slot.date == date %}
+                                <button class="slot-btn" 
+                                    data-slot-id="{{ slot.id }}"
+                                    data-date="{{ slot.date }}"
+                                    data-time="{{ slot.time }}"
+                                    onclick="selectSlot(this, {{ slot.id }}, '{{ slot.date }}', '{{ slot.time }}')">
+                                    {{ slot.time }}
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:#94a3b8;">Свободных слотов пока нет.</p>
+        {% endif %}
+    </div>
+
+    <div class="booking-form" id="bookingForm">
+        <h3>Запись на приём</h3>
+        <p style="color:#64748b;margin-bottom:20px;" id="selectedSlotInfo"></p>
+        
+        <div class="form-group">
+            <label>Ваше имя *</label>
+            <input type="text" id="patientName" placeholder="Айжанова Айгуль">
+        </div>
+        
+        <div class="form-group">
+            <label>Номер телефона *</label>
+            <input type="tel" id="patientPhone" placeholder="+7 777 123 45 67">
+        </div>
+        
+        <div class="form-group">
+            <label>Симптом</label>
+            <input type="text" id="symptomNote" placeholder="Кратко опишите симптом">
+        </div>
+        
+        <div class="form-group">
+            <label>Telegram Chat ID (для уведомлений)</label>
+            <input type="text" id="telegramChatId" placeholder="123456789">
+            <p style="font-size:12px;color:#94a3b8;margin-top:4px;">
+                Напишите боту @getmyid_bot в Telegram, чтобы узнать свой Chat ID
+            </p>
+        </div>
+        
+        <button class="btn btn-success" onclick="bookAppointment()">Подтвердить запись</button>
+        <button class="btn btn-outline" onclick="cancelBooking()" style="margin-left:10px;">Отмена</button>
+    </div>
+</div>
+
+<div class="confirmation-box" id="confirmationBox" style="display:none;">
+    <div class="check-icon">✅</div>
+    <h2>Вы записаны!</h2>
+    <p id="confirmMessage"></p>
+    <div class="confirmation-details">
+        <div class="row"><span class="label">Врач</span><span class="value">{{ doctor.name }}</span></div>
+        <div class="row"><span class="label">Дата и время</span><span class="value" id="confirmDateTime"></span></div>
+        <div class="row"><span class="label">Пациент</span><span class="value" id="confirmPatient"></span></div>
+        <div class="row"><span class="label">Уведомление</span><span class="value" id="confirmTelegram"></span></div>
+    </div>
+    <a href="/" class="btn btn-primary">На главную</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let selectedSlotId = null;
+    let selectedDate = null;
+    let selectedTime = null;
+
+    function selectSlot(btn, slotId, date, time) {
+        document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSlotId = slotId;
+        selectedDate = date;
+        selectedTime = time;
+        
+        const form = document.getElementById('bookingForm');
+        form.classList.add('active');
+        document.getElementById('selectedSlotInfo').textContent = `Выбранное время: ${date} в ${time}`;
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelBooking() {
+        document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('bookingForm').classList.remove('active');
+        selectedSlotId = null;
+    }
+
+    function bookAppointment() {
+        const patientName = document.getElementById('patientName').value.trim();
+        const patientPhone = document.getElementById('patientPhone').value.trim();
+        const symptomNote = document.getElementById('symptomNote').value.trim();
+        const telegramChatId = document.getElementById('telegramChatId').value.trim();
+        
+        if (!patientName || !patientPhone) {
+            alert('Заполните имя и телефон');
+            return;
+        }
+        
+        if (!selectedSlotId) {
+            alert('Выберите время приёма');
+            return;
+        }
+        
+        fetch('/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                patient_name: patientName,
+                patient_phone: patientPhone,
+                slot_id: selectedSlotId,
+                symptom_text: symptomNote,
+                recommended_specialist: '{{ doctor.specialization }}',
+                telegram_chat_id: telegramChatId
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector('.doctor-profile').style.display = 'none';
+                document.getElementById('confirmationBox').style.display = 'block';
+                document.getElementById('confirmMessage').textContent = data.message;
+                document.getElementById('confirmDateTime').textContent = 
+                    data.slot_date + ' в ' + data.slot_time;
+                document.getElementById('confirmPatient').textContent = patientName;
+                document.getElementById('confirmTelegram').textContent = 
+                    data.telegram_sent ? '✅ Отправлено в Telegram' : 'Не указан';
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(() => alert('Ошибка соединения с сервером'));
+    }
+</script>
+{% endblock %}

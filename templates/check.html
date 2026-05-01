@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}DocBridge — Проверка записи{% endblock %}
+
+{% block content %}
+<div class="confirmation-box">
+    {% if found %}
+        <div class="check-icon">✅</div>
+        <h2>Запись найдена!</h2>
+        <div class="confirmation-details">
+            <div class="row"><span class="label">Номер</span><span class="value">#{{ appointment.id }}</span></div>
+            <div class="row"><span class="label">Пациент</span><span class="value">{{ appointment.patient_name }}</span></div>
+            <div class="row"><span class="label">Врач</span><span class="value">{{ appointment.doctor_name }}</span></div>
+            <div class="row"><span class="label">Дата</span><span class="value">{{ appointment.date }}</span></div>
+            <div class="row"><span class="label">Время</span><span class="value">{{ appointment.time }}</span></div>
+            <div class="row"><span class="label">Симптом</span><span class="value">{{ appointment.symptom_text or 'Не указан' }}</span></div>
+        </div>
+    {% else %}
+        <div class="check-icon">🔍</div>
+        <h2>Запись не найдена</h2>
+        <p>Запись с номером #{{ appointment_id }} не существует.</p>
+    {% endif %}
+    <a href="/" class="btn btn-primary" style="margin-top:20px;">На главную</a>
+</div>
+{% endblock %}

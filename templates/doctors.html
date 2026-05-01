@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}DocBridge — Все врачи{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Наши врачи</h1>
+<p class="page-subtitle">Выберите специалиста и запишитесь на удобное время</p>
+
+<div class="doctors-grid">
+    {% for doctor in doctors %}
+    <a href="/doctor/{{ doctor.id }}" class="doctor-card">
+        <div class="doctor-avatar">{{ doctor.photo_url or '👨‍⚕️' }}</div>
+        <div class="doctor-info">
+            <h4>{{ doctor.name }}</h4>
+            <p class="spec">{{ doctor.specialization }}</p>
+            <p class="exp">Стаж: {{ doctor.experience_years }} лет</p>
+            {% if doctor.description %}
+            <p class="desc">{{ doctor.description[:100] }}{% if doctor.description|length > 100 %}...{% endif %}</p>
+            {% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
