@@ -9,57 +9,96 @@
 
 </div>
 
+# DocBridge — Symptom-Based Doctor Appointment System
+
+## What
+
+DocBridge is a web application that helps patients find the right doctor by analyzing their symptoms. Users describe their symptom via **text or voice**, the system recommends the appropriate specialist, and the patient can book an appointment instantly. Confirmation is sent via Telegram.
+
+**Deployed URL:** https://docbridge-770d.onrender.com
+
 ---
 
-## The Problem
+## Problem Statement
 
-> *"My throat hurts. Do I need a therapist? An ENT? I don't know."*
+In Kazakhstan, approximately 34% of initial specialist visits are misdirected. Patients do not know which doctor to consult, leading to wasted time and delayed treatment. Elderly users face additional barriers with complex interfaces. There is no widely available symptom-based triage tool for primary care navigation.
 
-Patients book the wrong doctor every day. Elderly users struggle with complex apps.
-
----
-
-## Our Solution
-
-**DocBridge** — describe your symptom, get the right doctor, book instantly.
-
-| Instead of... | You just... |
-|---|---|
-| Guessing which doctor | Describe your symptom |
-| Calling the clinic | Speak or type |
-| Waiting on hold | Get instant results |
-| Wrong specialist | Book the right one in 30s |
+DocBridge solves this by providing:
+- Symptom analysis (82 keywords, 8 medical specializations)
+- Voice input for accessibility
+- Instant booking with Telegram confirmation
 
 ---
 
 ## How It Works
 
-| 1. Describe | 2. Get Match | 3. Pick Slot |
+1. Patient describes symptom via text or voice (Russian)
+2. Rule-based expert system analyzes keywords
+3. System recommends appropriate specialist(s)
+4. Patient selects doctor and available time slot
+5. Booking confirmed on screen and via Telegram
+
+### Screenshots
+
+| Homepage | Analysis | Booking |
 |---|---|---|
-| ![Step 1](screenshots/image-2.png) | ![Step 2](screenshots/image-3.png) | ![Step 3](screenshots/image-4.png) |
+| ![Home](screenshots/image-2.png) | ![Analysis](screenshots/image-3.png) | ![Slots](screenshots/image-4.png) |
 
-| 4. Confirm | 5. Telegram Alert |
+| Confirmation | Telegram Alert |
 |---|---|
-| ![Step 4](screenshots/image-5.png) | ![Step 5](screenshots/image-6.png) |
+| ![Confirm](screenshots/image-5.png) | ![Telegram](screenshots/image-6.png) |
 
 ---
 
-## What Makes It Different
+## Tech Specs
 
-| Feature | Why It's Cool |
+| Layer | Technology | Version |
+|---|---|---|
+| Backend | Python + Flask | 3.11 / 3.1 |
+| Database | SQLite | 3 |
+| Frontend | HTML5, CSS3, JavaScript | — |
+| Voice Input | Web Speech API (Chrome) | W3C Standard |
+| Notifications | python-telegram-bot | 22.7 |
+| WSGI Server | Gunicorn | 25.3 |
+| Hosting | Render (Free Tier) | — |
+
+### Project Structure
+docbridge/
+├── app.py # Flask application
+├── models.py # Database models
+├── symptom_analyzer.py # Expert system (82 keywords)
+├── telegram_bot.py # Notification module
+├── requirements.txt # Dependencies
+├── static/css/style.css # Stylesheet
+├── templates/ # Jinja2 templates
+│ ├── base.html
+│ ├── index.html
+│ ├── doctors.html
+│ ├── doctor.html
+│ └── check.html
+└── screenshots/ # Documentation images
+
+
+### Features
+
+- Text and voice symptom input (Russian language)
+- Rule-based expert system: 82 keywords across 8 specializations
+- Emergency detection (heart attack, stroke, critical fever)
+- Slot-based booking with double-booking prevention
+- Telegram Bot API integration for notifications
+- Appointment lookup by ID
+- Responsive design (mobile + desktop)
+- Deployed as live web application
+
+---
+
+## Student IDs
+
+| Name | ID |
 |---|---|
-| Voice-first | Speak naturally. No typing. |
-| 82-rule engine | Instant, free, no AI costs |
-| Emergency detection | Heart attack, stroke warnings |
-| Telegram alerts | #1 messenger in Kazakhstan |
-| Live & free | Deployed on Render |
+| Khudaiberganova Elvina | 240103122 |
+| Aidarbekkyzy Aigerim | 240103117 |
+| Kemalova Ayaulym | 240103119 |
+| Akylbekkyzy Nazerke | 240103204 |
 
----
-
----
-
-<div align="center">
-
-**[Open Live Demo](https://docbridge-770d.onrender.com)** • **[Full Report](REPORT.md)** • **SDU University • INF395 • 2026**
-
-</div>
+**SDU University • INF395 • Advanced Project for Information Systems • Spring 2026**
