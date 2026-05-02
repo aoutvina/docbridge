@@ -2,8 +2,8 @@ import asyncio
 from telegram import Bot
 from telegram.error import TelegramError
 
-# ЗАМЕНИ НА СВОЙ ТОКЕН
-BOT_TOKEN = "7734684674:AAEkiWJmOnbEG2_LEeQJh1QmA2UDL34TlaU"
+import os
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
 async def send_telegram_message(chat_id, message):
     """Отправка сообщения в Telegram"""
