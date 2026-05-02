@@ -63,21 +63,21 @@ DocBridge solves this by providing:
 | Hosting | Render (Free Tier) | — |
 
 ## Project Structure
-docbridge/
-├── app.py # Flask application
-├── models.py # Database models
-├── symptom_analyzer.py # Expert system (82 keywords)
-├── telegram_bot.py # Notification module
-├── requirements.txt # Dependencies
-├── static/css/style.css # Stylesheet
-├── templates/
-│ ├── base.html
-│ ├── index.html
-│ ├── doctors.html
-│ ├── doctor.html
-│ └── check.html
-└── screenshots/
 
+| File/Folder | Description |
+|---|---|
+| `app.py` | Flask application (routes, logic) |
+| `models.py` | Database schema and seed data |
+| `symptom_analyzer.py` | Expert system (82 keywords) |
+| `telegram_bot.py` | Telegram notification module |
+| `requirements.txt` | Python dependencies |
+| `static/css/style.css` | Stylesheet |
+| `templates/base.html` | Base layout |
+| `templates/index.html` | Homepage (symptom input) |
+| `templates/doctors.html` | Doctor gallery |
+| `templates/doctor.html` | Doctor profile + booking |
+| `templates/check.html` | Appointment lookup |
+| `screenshots/` | Documentation images |
 
 ### Features
 
