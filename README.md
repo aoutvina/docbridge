@@ -62,7 +62,7 @@ DocBridge solves this by providing:
 | WSGI Server | Gunicorn | 25.3 |
 | Hosting | Render (Free Tier) | — |
 
-### Project Structure
+## Project Structure
 docbridge/
 ├── app.py # Flask application
 ├── models.py # Database models
@@ -70,13 +70,13 @@ docbridge/
 ├── telegram_bot.py # Notification module
 ├── requirements.txt # Dependencies
 ├── static/css/style.css # Stylesheet
-├── templates/ # Jinja2 templates
+├── templates/
 │ ├── base.html
 │ ├── index.html
 │ ├── doctors.html
 │ ├── doctor.html
 │ └── check.html
-└── screenshots/ # Documentation images
+└── screenshots/
 
 
 ### Features
